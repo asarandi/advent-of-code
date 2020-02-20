@@ -27,4 +27,4 @@ def calc(current_seq: {}, n: int) -> int:
 puzzle = '1113122113'   # aoc puzzle input
 d = {indices[puzzle]: 1}
 print("aoc2015d10p01:", calc(d, 40))
-print("aoc2015d10p01:", calc(d, 50))
+print("aoc2015d10p02:", calc(d, 50))
