@@ -1,3 +1,4 @@
 .DS*
 ._*
 .sw*
+__pycache__
