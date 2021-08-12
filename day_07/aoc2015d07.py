@@ -4,6 +4,7 @@ with open("input.txt", "r") as fp:
     data = fp.read().splitlines()
     fp.close()
 
+
 def emulate(lst: [], dbv=None) -> int:
     # dbv = default 'b' value
     d = {}
@@ -11,13 +12,13 @@ def emulate(lst: [], dbv=None) -> int:
         new_lst = []
         for i in range(len(lst)):
             line = lst[i]
-            src, dst = line.split(' -> ')[0], line.split(' -> ')[1]
-            src = src.split(' ')
+            src, dst = line.split(" -> ")[0], line.split(" -> ")[1]
+            src = src.split(" ")
             if len(src) == 1:
                 if src[0].isnumeric():
-                    if dst == 'b' and dst not in d and dbv:
+                    if dst == "b" and dst not in d and dbv:
                         d[dst] = dbv
-                    else:                        
+                    else:
                         d[dst] = int(src[0])
                 else:
                     if src[0] in d:
@@ -25,9 +26,9 @@ def emulate(lst: [], dbv=None) -> int:
                     else:
                         new_lst.append(lst[i])
                         continue
-            elif len(src) == 2:   # only NOT
+            elif len(src) == 2:  # only NOT
                 if src[1] in d:
-                    d[dst] = ~ d[src[1]]
+                    d[dst] = ~d[src[1]]
                 else:
                     new_lst.append(lst[i])
                     continue
@@ -48,20 +49,21 @@ def emulate(lst: [], dbv=None) -> int:
                     else:
                         new_lst.append(lst[i])
                         continue
-                if src[1] == 'OR':
+                if src[1] == "OR":
                     d[dst] = a | b
-                elif src[1] == 'XOR':
+                elif src[1] == "XOR":
                     d[dst] = a ^ b
-                elif src[1] == 'LSHIFT':
+                elif src[1] == "LSHIFT":
                     d[dst] = a << b
-                elif src[1] == 'RSHIFT':
+                elif src[1] == "RSHIFT":
                     d[dst] = a >> b
-                elif src[1] == 'AND':
+                elif src[1] == "AND":
                     d[dst] = a & b
-        lst = new_lst               
-    return d['a']
+        lst = new_lst
+    return d["a"]
+
 
 p1 = emulate(data)
 p2 = emulate(data, p1)
 print("aoc2015d07p01:", p1)
-print("aoc2015d07p02:", p2) 
+print("aoc2015d07p02:", p2)

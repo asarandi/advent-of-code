@@ -6,6 +6,7 @@ with open("input.txt", "r") as fp:
     data = json.load(fp)
     fp.close()
 
+
 def trav(data, ignore_red) -> int:
     res = 0
     if isinstance(data, int):
@@ -21,6 +22,7 @@ def trav(data, ignore_red) -> int:
         for e in data:
             res += trav(data[e], ignore_red)
     return res
+
 
 print("aoc2015d12p01:", trav(data, False))
 print("aoc2015d12p02:", trav(data, True))

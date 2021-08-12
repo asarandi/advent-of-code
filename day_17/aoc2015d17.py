@@ -6,6 +6,8 @@ with open("input.txt", "r") as fp:
 
 k = len(data) + 1
 p1, p2 = 0, 0
+
+
 def perm(work: [], containers: [], unique: {}, idx: int, n: int):
     global k, p1, p2
     if sum(work) == n:
@@ -22,6 +24,7 @@ def perm(work: [], containers: [], unique: {}, idx: int, n: int):
             perm(work, containers, unique, i, n)
             unique.remove(i)
             work.pop(-1)
+
 
 perm([], data, set(), 0, 150)
 

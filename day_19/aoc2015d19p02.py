@@ -8,11 +8,12 @@ with open("input.txt", "r") as fp:
 
 reactions, start = [], data[-1]
 for line in data[:-2]:
-    src, dst = line.split(' => ')[0], line.split(' => ')[1]
+    src, dst = line.split(" => ")[0], line.split(" => ")[1]
     reactions.append((dst, src))
 
-reactions = sorted(reactions, key=lambda x:len(x[1]))
-reactions = sorted(reactions, key=lambda x:len(x[0]), reverse=True)
+reactions = sorted(reactions, key=lambda x: len(x[1]))
+reactions = sorted(reactions, key=lambda x: len(x[0]), reverse=True)
+
 
 def children(s: str) -> []:
     global reactions
@@ -21,12 +22,13 @@ def children(s: str) -> []:
     for i in range(len(s)):
         for k in reactions:
             dst, src = k
-            if s[i:i+len(dst)] == dst:
-                n = s[:i] + src + s[i+len(dst):]
+            if s[i : i + len(dst)] == dst:
+                n = s[:i] + src + s[i + len(dst) :]
                 res.add(n)
     return list(res)
 
-seen, queue, goal = set(), [], 'e'
+
+seen, queue, goal = set(), [], "e"
 heappush(queue, (len(start), 0, start))
 while queue:
     k, dist, molecule = heappop(queue)
@@ -40,4 +42,4 @@ while queue:
         heappush(queue, (len(c), dist + 1, c))
 
 if goal not in seen:
-    print('not found')
+    print("not found")

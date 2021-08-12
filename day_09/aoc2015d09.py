@@ -3,12 +3,14 @@
 from math import inf
 
 p1, p2 = inf, -inf
+
+
 def permute(path: [], cities: {}, idx: int):
     global p1, p2
     if idx == len(path):
         dist = 0
         for i in range(1, len(path)):
-            dist += cities[path[i-1]][path[i]]
+            dist += cities[path[i - 1]][path[i]]
         p1 = min(p1, dist)
         p2 = max(p2, dist)
     else:
@@ -24,7 +26,7 @@ with open("input.txt", "r") as fp:
 
 cities = {}
 for line in data:
-    src, dst, d = line.split(' ')[0], line.split(' ')[2], int(line.split(' ')[4])
+    src, dst, d = line.split(" ")[0], line.split(" ")[2], int(line.split(" ")[4])
     if src not in cities:
         cities[src] = {}
     if dst not in cities:
