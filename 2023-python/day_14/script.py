@@ -1,50 +1,29 @@
 #!/usr/bin/env pypy3
-
-G = [list(l) for l in open("input.txt").read().splitlines()]
-H, W = len(G), len(G[0])
-
-tab = [
-    (1, 0, 0, 0, -1, 0),
-    (0, 0, 1, 0, 0, -1),
-    (0, -1, 0, 0, 1, 0),
-    (0, 0, 0, -1, 0, 1),
-]
-
-
-def roll(G: [list], config: tuple):
-    h0, hm, w0, wm, ym, xm = config
-    done = False
-    while not done:
-        done = True
-        for y in range(h0, H + hm):
-            for x in range(w0, W + wm):
-                if (G[y][x] == "O") and (G[y + ym][x + xm] == "."):
-                    G[y][x], G[y + ym][x + xm] = G[y + ym][x + xm], G[y][x]
-                    done = False
-    return G
+def tilt(dish: tuple, tilt_config: tuple) -> tuple:
+    y_start, y_stop, x_start, x_stop, Y, X = tilt_config
+    f, g = 0, list(list(l) for l in dish)
+    while not f:
+        f = 1
+        for y in range(y_start, y_stop + len(dish)):
+            for x in range(x_start, x_stop + len(dish[0])):
+                if (g[y][x] == "O") and (g[y + Y][x + X] == "."):
+                    f, g[y][x], g[y + Y][x + X] = 0, g[y + Y][x + X], g[y][x]
+    return tuple(tuple(l) for l in g)
 
 
-def calc(G: [list]) -> int:
-    r = 0
-    for y in range(H):
-        for x in range(W):
-            if G[y][x] == "O":
-                r += H - y
-    return r
+getinput = lambda: tuple(tuple(l) for l in open("input.txt").read().splitlines())
+calc = lambda g: sum(g[y].count("O") * (len(g) - y) for y in range(len(g)))
+Q = ((1, 0, 0, 0, -1, 0), (0, 0, 1, 0, 0, -1), (0, -1, 0, 0, 1, 0), (0, 0, 0, -1, 0, 1))
 
-
-G = roll(G, tab[0])
-print(calc(G))  # part 1
-
-from hashlib import md5
-
-seen = set()
-for i in range(512):
-    for t in tab:
-        G = roll(G, t)
-    s = "".join(["".join(l) for l in G])
-    h = md5()
-    h.update(s.encode())
-    d = h.hexdigest()
-    print(i, d, calc(G), "---" if d in seen else "")
-    seen.add(d)
+dish, seen, mark = getinput(), dict(), -1
+for i in range(256):
+    for tilt_config in Q:
+        dish = tilt(dish, tilt_config)
+    s = f"{dish}"
+    seen[s] = seen[s] + 1 if s in seen else 1
+    if s in seen and seen[s] > 2 and mark == -1:
+        seq = {k: v for k, v in seen.items() if v > 1}
+        mark = (10**9 - i - 1) % len(seq) + i
+    elif i == mark:
+        break
+print(calc(tilt(getinput(), Q[0])), calc(dish))
