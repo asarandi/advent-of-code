@@ -2,3 +2,4 @@
 *.tasty
 .DS_Store
 ._*
+input*
