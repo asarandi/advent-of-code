@@ -1,0 +1,6 @@
+input
+input.txt
+._*
+.DS_Store
+.*.sw*
+__pycache__/
